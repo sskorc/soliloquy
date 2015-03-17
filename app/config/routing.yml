@@ -1,4 +1,3 @@
-api_articles:
-    type:     rest
-    resource: AppBundle\Controller\ProductsController
-    prefix:   /api
+soliloquy_web:
+    resource: "@SoliloquyWebBundle/Resources/config/routing.yml"
+    prefix:   /browse

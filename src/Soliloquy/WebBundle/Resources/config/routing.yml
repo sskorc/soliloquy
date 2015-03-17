@@ -1,0 +1,3 @@
+soliloquy_web_get_movie:
+    path:     /movie/{title}
+    defaults: { _controller: SoliloquyWebBundle:Movie:getMovie }
