@@ -17,6 +17,8 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Soliloquy\WebBundle\SoliloquyWebBundle(),
+            new Soliloquy\ParserBundle\SoliloquyParserBundle(),
+            new Soliloquy\ProviderBundle\SoliloquyProviderBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -32,5 +34,21 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+    }
+
+    public function getCacheDir()
+    {
+        if (in_array($this->environment, array('dev'))) {
+            return '/tmp/cache/' . $this->environment;
+        }
+        return parent::getCacheDir();
+    }
+
+    public function getLogDir()
+    {
+        if (in_array($this->environment, array('dev'))) {
+            return '/tmp/logs/';
+        }
+        return parent::getLogDir();
     }
 }
