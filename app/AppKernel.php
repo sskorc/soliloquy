@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Soliloquy\WebBundle\SoliloquyWebBundle(),
             new Soliloquy\ParserBundle\SoliloquyParserBundle(),
             new Soliloquy\ProviderBundle\SoliloquyProviderBundle(),
+            new Soliloquy\MovieBundle\SoliloquyMovieBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

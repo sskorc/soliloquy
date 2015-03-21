@@ -1,0 +1,6 @@
+services:
+    soliloquy.movie.movie_factory:
+        class: Soliloquy\MovieBundle\Factory\MovieFactory
+    soliloquy.movie.movie:
+        class: Soliloquy\MovieBundle\Document\Movie
+        factory: ["@soliloquy.movie.movie_factory", createMovie]
