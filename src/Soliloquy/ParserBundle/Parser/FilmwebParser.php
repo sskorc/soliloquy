@@ -10,24 +10,11 @@ class FilmwebParser
     protected $parser;
 
     /**
-     * @var Soliloquy\MovieBundle\Document\Movie
-     */
-    protected $movie;
-
-    /**
      * @param Sunra\PhpSimple\HtmlDomParser $parser
      */
     public function __construct($parser)
     {
         $this->parser = $parser;
-    }
-
-    /**
-     * @param Soliloquy\MovieBundle\Document\Movie $movie
-     */
-    public function setMovie($movie)
-    {
-        $this->movie = $movie;
     }
 
     /**
@@ -53,7 +40,7 @@ class FilmwebParser
     /**
      * @param string $url
      *
-     * @return Soliloquy\MovieBundle\Document\Movie
+     * @return array
      */
     public function parseMovieDetailsPage($url)
     {
@@ -74,11 +61,13 @@ class FilmwebParser
             $yearOfProduction = $matches[1];
         }
 
-        $this->movie->setPolishTitle($polishTitle);
-        $this->movie->setOriginalTitle($originalTitle);
-        $this->movie->setRating($rating);
-        $this->movie->setYearOfProduction($yearOfProduction);
+        $details = array(
+            'polishTitle' => $polishTitle,
+            'originalTitle' => $originalTitle,
+            'rating' => $rating,
+            'yearOfProduction' => $yearOfProduction,
+        );
 
-        return $this->movie;
+        return $details;
     }
 }

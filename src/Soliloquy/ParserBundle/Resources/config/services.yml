@@ -4,5 +4,3 @@ services:
     soliloquy.parser.filmweb:
         class: Soliloquy\ParserBundle\Parser\FilmwebParser
         arguments: [@dom_parser]
-        calls:
-            - [setMovie, ["@soliloquy.movie.movie"]]

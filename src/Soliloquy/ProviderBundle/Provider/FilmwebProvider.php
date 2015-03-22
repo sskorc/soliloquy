@@ -10,11 +10,24 @@ class FilmwebProvider
     protected $parser;
 
     /**
+     * @var Soliloquy\MovieBundle\Document\Movie
+     */
+    protected $movie;
+
+    /**
      * @param Soliloquy\ParserBundle\Parser\FilmwebParser $parser
      */
     public function setParser($parser)
     {
         $this->parser = $parser;
+    }
+
+    /**
+     * @param Soliloquy\MovieBundle\Document\Movie $movie
+     */
+    public function setMovie($movie)
+    {
+        $this->movie = $movie;
     }
 
     /**
@@ -26,8 +39,13 @@ class FilmwebProvider
     {
         $url = $this->parser->findMovieUrl($parameters);
 
-        $movie = $this->parser->parseMovieDetailsPage($url);
+        $details = $this->parser->parseMovieDetailsPage($url);
 
-        return $movie;
+        $this->movie->setPolishTitle($details['polishTitle']);
+        $this->movie->setOriginalTitle($details['originalTitle']);
+        $this->movie->setRating($details['rating']);
+        $this->movie->setYearOfProduction($details['yearOfProduction']);
+
+        return $this->movie;
     }
 }
