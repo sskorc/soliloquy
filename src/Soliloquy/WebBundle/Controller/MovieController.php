@@ -3,21 +3,23 @@
 namespace Soliloquy\WebBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class MovieController extends Controller
 {
-    public function getMovieAction($title)
+    public function getMovieAction(Request $request, $title)
     {
-        $url = 'http://www.filmweb.pl/film/Wilk+z+Wall+Street-2013-426597';
+        $year = $request->get('year');
 
-        $movie = $this->get('soliloquy.parser.filmweb')->parseMovieDetailsPage($url);
+        $parameters['title'] = $title;
+        $parameters['year'] = $year;
+
+        $movie = $this->get('soliloquy.provider.filmweb')->getMovie($parameters);
 
         return $this->render(
             'SoliloquyWebBundle:Movie:single_movie.html.twig',
             array(
-                'polish_title' => $movie->getPolishTitle(),
-                'original_title' => $movie->getOriginalTitle(),
-                'rating' => 10,
+                'movie' => $movie,
             )
         );
     }

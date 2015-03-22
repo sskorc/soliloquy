@@ -1,0 +1,5 @@
+services:
+    soliloquy.provider.filmweb:
+        class: Soliloquy\ProviderBundle\Provider\FilmwebProvider
+        calls:
+            - [setParser, ["@soliloquy.parser.filmweb"]]

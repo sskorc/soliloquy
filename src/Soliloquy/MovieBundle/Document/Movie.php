@@ -24,6 +24,8 @@ class Movie
      */
     protected $polishTitle;
 
+    protected $rating;
+
     /**
      * @return string
      */
@@ -86,5 +88,21 @@ class Movie
     public function setEnglishTitle($englishTitle)
     {
         $this->englishTitle = $englishTitle;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * @param mixed $rating
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
     }
 }
