@@ -10,9 +10,9 @@ class FilmwebProvider
     protected $parser;
 
     /**
-     * @var Soliloquy\MovieBundle\Document\Movie
+     * @var Soliloquy\MovieBundle\Document\MovieFactory
      */
-    protected $movie;
+    protected $movieFactory;
 
     /**
      * @param Soliloquy\ParserBundle\Parser\FilmwebParser $parser
@@ -23,11 +23,11 @@ class FilmwebProvider
     }
 
     /**
-     * @param Soliloquy\MovieBundle\Document\Movie $movie
+     * @param Soliloquy\MovieBundle\Document\MovieFactory $movieFactory
      */
-    public function setMovie($movie)
+    public function setMovieFactory($movieFactory)
     {
-        $this->movie = $movie;
+        $this->movieFactory = $movieFactory;
     }
 
     /**
@@ -41,11 +41,43 @@ class FilmwebProvider
 
         $details = $this->parser->parseMovieDetailsPage($url);
 
-        $this->movie->setPolishTitle($details['polishTitle']);
-        $this->movie->setOriginalTitle($details['originalTitle']);
-        $this->movie->setRating($details['rating']);
-        $this->movie->setYearOfProduction($details['yearOfProduction']);
+        $movie = $this->movieFactory->createMovie();
 
-        return $this->movie;
+        $movie->setPolishTitle($details['polishTitle']);
+        $movie->setOriginalTitle($details['originalTitle']);
+        $movie->setRating($details['rating']);
+        $movie->setYearOfProduction($details['yearOfProduction']);
+
+        return $movie;
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return array
+     */
+    public function getUserMovies($parameters)
+    {
+        $this->parser->login($parameters['username'], $parameters['password']);
+
+        $userMovies = $this->parser->parseUserMoviesListPage($parameters['username']);
+
+        $movies = array();
+        foreach ($userMovies as $userMovie) {
+            $movie = $this->movieFactory->createMovie();
+            $movie->setId($userMovie['id']);
+            $movie->setRating($userMovie['rating']);
+            $movie->setIsFavourite($userMovie['isFavourite']);
+            $movie->setRatedAt($userMovie['ratedAt']);
+
+            $details = $this->parser->parseMovieDetailsPage('http://www.filmweb.pl/entityLink?entityName=film&id=' . $userMovie['id']);
+
+            $movie->setPolishTitle($details['polishTitle']);
+            $movie->setOriginalTitle($details['originalTitle']);
+            $movie->setYearOfProduction($details['yearOfProduction']);
+            $movies[] = $movie;
+        }
+
+        return $movies;
     }
 }

@@ -4,17 +4,11 @@ namespace Soliloquy\ParserBundle\Parser;
 
 class FilmwebParser
 {
-    /**
-     * @var Sunra\PhpSimple\HtmlDomParser
-     */
-    protected $parser;
+    protected $client;
 
-    /**
-     * @param Sunra\PhpSimple\HtmlDomParser $parser
-     */
-    public function __construct($parser)
+    public function __construct($client)
     {
-        $this->parser = $parser;
+        $this->client = $client;
     }
 
     /**
@@ -30,11 +24,23 @@ class FilmwebParser
             $url .= '&startYear=' . $parameters['year'] . '&endYear=' . $parameters['year'];
         }
 
-        $dom = $this->parser->file_get_html($url);
+        $crawler = $this->client->request('GET', $url);
 
-        $movieUrl = $dom->find('div#searchResult ul.resultsList > li h3 a', 0)->href;
+        $movieUrl = $crawler->filter('div#searchResult ul.resultsList > li h3 a')->first()->attr('href');
 
         return 'http://www.filmweb.pl' . $movieUrl;
+    }
+
+    public function login($username, $password)
+    {
+        $crawler = $this->client->request('GET', 'https://ssl.filmweb.pl/login');
+        $form = $crawler->selectButton('pass')->form();
+        $this->client->submit($form, array('j_username' => $username, 'j_password' => $password));
+    }
+
+    public function logout()
+    {
+        $this->client->request('GET', 'http://filmweb.pl/logout');
     }
 
     /**
@@ -44,20 +50,20 @@ class FilmwebParser
      */
     public function parseMovieDetailsPage($url)
     {
-        $dom = $this->parser->file_get_html($url);
+        $crawler = $this->client->request('GET', $url);
 
-        $polishTitleElement = $dom->find('h1.filmTitle a', 0);
-        $polishTitle = !empty($polishTitleElement) ? $polishTitleElement->innertext : null;
+        $polishTitleElement = $crawler->filter('h1.filmTitle a')->first();
+        $polishTitle = count($polishTitleElement) ? $polishTitleElement->text() : null;
 
-        $originalTitleElement = $dom->find('div.filmMainHeader h2', 0);
-        $originalTitle = !empty($originalTitleElement) ? $originalTitleElement->innertext : $polishTitle;
+        $originalTitleElement = $crawler->filter('div.filmMainHeader h2')->first();
+        $originalTitle = count($originalTitleElement) ? $originalTitleElement->text() : $polishTitle;
 
-        $ratingElement = $dom->find('div.ratingInfo span[property="v:average"]', 0);
-        $rating = !empty($ratingElement) ? $ratingElement->innertext : null;
+        $ratingElement = $crawler->filter('div.ratingInfo span[property="v:average"]')->first();
+        $rating = count($ratingElement) ? $ratingElement->text() : null;
 
-        $yearOfProductionElement = $dom->find('div.filmMainHeader div.hdr span.halfSize', 0);
-        if (!empty($yearOfProductionElement)) {
-            preg_match('/\((.*?)\)/', $yearOfProductionElement->innertext, $matches);
+        $yearOfProductionElement = $crawler->filter('div.filmMainHeader div.hdr span.halfSize')->first();
+        if (count($yearOfProductionElement)) {
+            preg_match('/\((.*?)\)/', $yearOfProductionElement->text(), $matches);
             $yearOfProduction = $matches[1];
         }
 
@@ -69,5 +75,41 @@ class FilmwebParser
         );
 
         return $details;
+    }
+
+    public function parseUserMoviesListPage()
+    {
+        $url = 'http://www.filmweb.pl/data/myFilmVotes';
+
+        $response = $this->client->getClient()->get(
+            $url,
+            array('cookies' => $this->client->getCookieJar()->allRawValues($url))
+        );
+
+        $body = $response->getBody()->read($response->getHeader('Content-Length'));
+
+        $movies = $this->parseUserMoviesListBody($body);
+
+        return $movies;
+    }
+
+    protected function parseUserMoviesListBody($body)
+    {
+        $lines = explode('\a', $body);
+
+        unset($lines[0]);
+
+        $movies = array();
+        foreach ($lines as $line) {
+            $data = explode('\c', $line);
+            $movies[] = array (
+                'id' => $data[0],
+                'rating' => $data[1],
+                'isFavourite' => $data[2] ? true : false,
+                'ratedAt' => new \DateTime($data[3]),
+            );
+        }
+
+        return $movies;
     }
 }

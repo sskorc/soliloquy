@@ -1,6 +1,6 @@
 services:
-    dom_parser:
-        class: Sunra\PhpSimple\HtmlDomParser
+    goutte_client:
+        class: Goutte\Client
     soliloquy.parser.filmweb:
         class: Soliloquy\ParserBundle\Parser\FilmwebParser
-        arguments: [@dom_parser]
+        arguments: [@goutte_client]

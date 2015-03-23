@@ -3,4 +3,4 @@ services:
         class: Soliloquy\ProviderBundle\Provider\FilmwebProvider
         calls:
             - [setParser, ["@soliloquy.parser.filmweb"]]
-            - [setMovie, ["@soliloquy.movie.movie"]]
+            - [setMovieFactory, ["@soliloquy.movie.movie_factory"]]

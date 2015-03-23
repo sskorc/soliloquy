@@ -26,6 +26,12 @@ class Movie
 
     protected $rating;
 
+    protected $ratedAt;
+
+    protected $isFavourite;
+
+    protected $id;
+
     /**
      * @return string
      */
@@ -104,5 +110,53 @@ class Movie
     public function setRating($rating)
     {
         $this->rating = $rating;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRatedAt()
+    {
+        return $this->ratedAt;
+    }
+
+    /**
+     * @param mixed $ratedAt
+     */
+    public function setRatedAt($ratedAt)
+    {
+        $this->ratedAt = $ratedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsFavourite()
+    {
+        return $this->isFavourite;
+    }
+
+    /**
+     * @param mixed $isFavourite
+     */
+    public function setIsFavourite($isFavourite)
+    {
+        $this->isFavourite = $isFavourite;
     }
 }

@@ -23,4 +23,19 @@ class MovieController extends Controller
             )
         );
     }
+
+    public function getUserMoviesAction(Request $request, $username)
+    {
+        $parameters['username'] = $username;
+        $parameters['password'] = $request->get('password');
+
+        $movies = $this->get('soliloquy.provider.filmweb')->getUserMovies($parameters);
+
+        return $this->render(
+            'SoliloquyWebBundle:Movie:user_movies.html.twig',
+            array(
+                'movies' => $movies,
+            )
+        );
+    }
 }
