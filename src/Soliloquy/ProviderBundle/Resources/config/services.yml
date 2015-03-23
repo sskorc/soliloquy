@@ -4,3 +4,4 @@ services:
         calls:
             - [setParser, ["@soliloquy.parser.filmweb"]]
             - [setMovieFactory, ["@soliloquy.movie.movie_factory"]]
+            - [setDumpManager, ["@soliloquy.user.dump_manager"]]

@@ -15,6 +15,11 @@ class FilmwebProvider
     protected $movieFactory;
 
     /**
+     * @var Soliloquy\UserBundle\Manager\DumpManager
+     */
+    protected $dumpManager;
+
+    /**
      * @param Soliloquy\ParserBundle\Parser\FilmwebParser $parser
      */
     public function setParser($parser)
@@ -28,6 +33,14 @@ class FilmwebProvider
     public function setMovieFactory($movieFactory)
     {
         $this->movieFactory = $movieFactory;
+    }
+
+    /**
+     * @param Soliloquy\UserBundle\Manager\DumpManager $dumpManager
+     */
+    public function setDumpManager($dumpManager)
+    {
+        $this->dumpManager = $dumpManager;
     }
 
     /**
@@ -64,20 +77,36 @@ class FilmwebProvider
 
         $movies = array();
         foreach ($userMovies as $userMovie) {
+            $movieProxy = $this->movieFactory->createMovieProxy();
+            $movieProxy->setRate($userMovie['rating']);
+            $movieProxy->setIsFavourite($userMovie['isFavourite']);
+            $movieProxy->setRatedAt($userMovie['ratedAt']);
+
             $movie = $this->movieFactory->createMovie();
             $movie->setId($userMovie['id']);
-            $movie->setRating($userMovie['rating']);
-            $movie->setIsFavourite($userMovie['isFavourite']);
-            $movie->setRatedAt($userMovie['ratedAt']);
+            $movieProxy->setMovie($movie);
 
-            $details = $this->parser->parseMovieDetailsPage('http://www.filmweb.pl/entityLink?entityName=film&id=' . $userMovie['id']);
-
-            $movie->setPolishTitle($details['polishTitle']);
-            $movie->setOriginalTitle($details['originalTitle']);
-            $movie->setYearOfProduction($details['yearOfProduction']);
-            $movies[] = $movie;
+            $movies[] = $movieProxy;
         }
 
         return $movies;
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return Soliloquy\UserBundle\Document\Dump
+     */
+    public function importUserMovies($parameters)
+    {
+        $movies = $this->getUserMovies($parameters);
+
+        $dump = $this->dumpManager->createDump();
+
+        $dump->setMovies($movies);
+
+        $this->dumpManager->persistDump($dump);
+
+        return $dump;
     }
 }

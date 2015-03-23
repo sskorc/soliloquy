@@ -1,0 +1,4 @@
+services:
+    soliloquy.user.dump_manager:
+        class: Soliloquy\UserBundle\Manager\DumpManager
+        arguments: ["@doctrine.odm.mongodb.document_manager"]

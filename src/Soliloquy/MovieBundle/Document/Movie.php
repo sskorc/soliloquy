@@ -7,6 +7,11 @@ class Movie
     /**
      * @var string
      */
+    protected $id;
+
+    /**
+     * @var string
+     */
     protected $originalTitle;
 
     /**
@@ -23,14 +28,6 @@ class Movie
      * @var string
      */
     protected $polishTitle;
-
-    protected $rating;
-
-    protected $ratedAt;
-
-    protected $isFavourite;
-
-    protected $id;
 
     /**
      * @return string
@@ -115,22 +112,6 @@ class Movie
     /**
      * @return mixed
      */
-    public function getRatedAt()
-    {
-        return $this->ratedAt;
-    }
-
-    /**
-     * @param mixed $ratedAt
-     */
-    public function setRatedAt($ratedAt)
-    {
-        $this->ratedAt = $ratedAt;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
@@ -142,21 +123,5 @@ class Movie
     public function setId($id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIsFavourite()
-    {
-        return $this->isFavourite;
-    }
-
-    /**
-     * @param mixed $isFavourite
-     */
-    public function setIsFavourite($isFavourite)
-    {
-        $this->isFavourite = $isFavourite;
     }
 }

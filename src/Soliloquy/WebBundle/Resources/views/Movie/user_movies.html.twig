@@ -1,9 +1,8 @@
 <ul>
     {% for movie in movies %}
-    <li>{{ movie.polishTitle }} ({{ movie.yearOfProduction }})
+    <li>{{ movie.movie.id }}
         <ul>
-            <li>Original title: {{ movie.originalTitle }}</li>
-            <li>Rating: {{ movie.rating }}</li>
+            <li>Rate: {{ movie.rate }}</li>
             <li>Favourite: {{ movie.isFavourite ? 'Yes':'No' }}</li>
             <li>Rated at: {{ movie.ratedAt|date("d.m.Y") }}</li>
         </ul>
