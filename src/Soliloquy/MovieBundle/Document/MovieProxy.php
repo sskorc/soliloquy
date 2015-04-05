@@ -2,27 +2,45 @@
 
 namespace Soliloquy\MovieBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document
+ */
 class MovieProxy
 {
     /**
-     * @var Movie
+     * @MongoDB\Id(strategy="auto")
+     */
+    protected $id;
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Soliloquy\MovieBundle\Document\Movie")
      */
     protected $movie;
 
     /**
-     * @var \DateTime
+     * @MongoDB\Date
      */
     protected $ratedAt;
 
     /**
-     * @var string
+     * @MongoDB\String
      */
     protected $rate;
 
     /**
-     * @var boolean
+     * @MongoDB\Boolean
      */
     protected $isFavourite;
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return Movie

@@ -2,30 +2,35 @@
 
 namespace Soliloquy\MovieBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document
+ */
 class Movie
 {
     /**
-     * @var string
+     * @MongoDB\Id
      */
     protected $id;
 
     /**
-     * @var string
+     * @MongoDB\String
      */
     protected $originalTitle;
 
     /**
-     * @var string
+     * @MongoDB\String
      */
     protected $yearOfProduction;
 
     /**
-     * @var string
+     * @MongoDB\String
      */
     protected $englishTitle;
 
     /**
-     * @var string
+     * @MongoDB\String
      */
     protected $polishTitle;
 

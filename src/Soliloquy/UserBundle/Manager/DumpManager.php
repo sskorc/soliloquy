@@ -41,7 +41,7 @@ class DumpManager
             $this->dm->persist($movieProxy);
         }
 
-        $this->dm->perists($dump);
+        $this->dm->persist($dump);
         $this->dm->flush();
     }
 }

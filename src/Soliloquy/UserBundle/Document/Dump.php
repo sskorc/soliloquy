@@ -2,26 +2,30 @@
 
 namespace Soliloquy\UserBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document
+ */
 class Dump
 {
     /**
-     * @var \MongoId
+     * @MongoDB\Id(strategy="auto")
      */
     protected $id;
 
     /**
-     * @var \DateTime
+     * @MongoDB\Date
      */
     protected $createdAt;
 
     /**
-     * @var array
+     * @MongoDB\ReferenceMany(targetDocument="Soliloquy\MovieBundle\Document\MovieProxy")
      */
     protected $movies;
 
     public function __construct()
     {
-        $this->id = new \MongoId();
         $this->createdAt = new \DateTime('now');
         $this->movies = array();
     }
