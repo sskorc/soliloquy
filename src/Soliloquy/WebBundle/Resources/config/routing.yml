@@ -1,9 +1,6 @@
 soliloquy_web_get_movie:
     path: /movie/{title}
     defaults: { _controller: SoliloquyWebBundle:Movie:getMovie }
-soliloquy_web_get_user_movies:
-    path: /user/{username}/movies
-    defaults: { _controller: SoliloquyWebBundle:Movie:getUserMovies }
 soliloquy_web_import_user_movies:
     path: /user/{username}/import
     defaults: { _controller: SoliloquyWebBundle:Movie:importUserMovies }

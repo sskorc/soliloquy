@@ -1,0 +1,11 @@
+services:
+    goutte_client:
+        class: Goutte\Client
+    soliloquy.parser.filmweb:
+        class: Soliloquy\FilmwebBundle\Parser\FilmwebParser
+        arguments: [@goutte_client]
+    soliloquy.provider.filmweb:
+        class: Soliloquy\FilmwebBundle\Provider\FilmwebProvider
+        calls:
+            - [setParser, ["@soliloquy.parser.filmweb"]]
+            - [setMovieFactory, ["@soliloquy.movie.movie_factory"]]

@@ -17,10 +17,10 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Soliloquy\WebBundle\SoliloquyWebBundle(),
-            new Soliloquy\ParserBundle\SoliloquyParserBundle(),
-            new Soliloquy\ProviderBundle\SoliloquyProviderBundle(),
             new Soliloquy\MovieBundle\SoliloquyMovieBundle(),
             new Soliloquy\UserBundle\SoliloquyUserBundle(),
+            new Soliloquy\AppBundle\SoliloquyAppBundle(),
+            new Soliloquy\FilmwebBundle\SoliloquyFilmwebBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

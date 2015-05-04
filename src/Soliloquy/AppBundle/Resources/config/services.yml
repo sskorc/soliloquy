@@ -1,0 +1,7 @@
+services:
+    soliloquy.app.movie:
+        class: Soliloquy\AppBundle\Service\MovieService
+        arguments: [@soliloquy.provider.filmweb]
+    soliloquy.app.import:
+        class: Soliloquy\AppBundle\Service\ImportService
+        arguments: [@soliloquy.provider.filmweb, @soliloquy.user.dump_manager]

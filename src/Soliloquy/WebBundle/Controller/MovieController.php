@@ -14,7 +14,7 @@ class MovieController extends Controller
         $parameters['title'] = $title;
         $parameters['year'] = $year;
 
-        $movie = $this->get('soliloquy.provider.filmweb')->getMovie($parameters);
+        $movie = $this->get('soliloquy.app.movie')->getMovie($parameters);
 
         return $this->render(
             'SoliloquyWebBundle:Movie:single_movie.html.twig',
@@ -24,27 +24,12 @@ class MovieController extends Controller
         );
     }
 
-    public function getUserMoviesAction(Request $request, $username)
-    {
-        $parameters['username'] = $username;
-        $parameters['password'] = $request->get('password');
-
-        $movies = $this->get('soliloquy.provider.filmweb')->getUserMovies($parameters);
-
-        return $this->render(
-            'SoliloquyWebBundle:Movie:user_movies.html.twig',
-            array(
-                'movies' => $movies,
-            )
-        );
-    }
-
     public function importUserMoviesAction(Request $request, $username)
     {
         $parameters['username'] = $username;
         $parameters['password'] = $request->get('password');
 
-        $dump = $this->get('soliloquy.provider.filmweb')->importUserMovies($parameters);
+        $dump = $this->get('soliloquy.app.import')->importUserMovies($parameters);
 
         return $this->render(
             'SoliloquyWebBundle:Movie:dump.html.twig',

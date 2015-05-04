@@ -8,18 +8,39 @@ use Soliloquy\MovieBundle\Document\MovieProxy;
 class MovieFactory
 {
     /**
+     * @param array $details
+     *
      * @return Movie
      */
-    public function createMovie()
+    public function createMovie($details = array())
     {
-        return new Movie();
+        $movie = new Movie();
+
+        $movie->setPolishTitle($details['polishTitle']);
+        $movie->setOriginalTitle($details['originalTitle']);
+        $movie->setRating($details['rating']);
+        $movie->setYearOfProduction($details['yearOfProduction']);
+
+        return $movie;
     }
 
     /**
+     * @param array $details
+     *
      * @return MovieProxy
      */
-    public function createMovieProxy()
+    public function createMovieProxy($details = array())
     {
-        return new MovieProxy();
+        $movieProxy = new MovieProxy();
+
+        $movieProxy->setRate($details['rating']);
+        $movieProxy->setIsFavourite($details['isFavourite']);
+        $movieProxy->setRatedAt($details['ratedAt']);
+
+        $movie = new Movie();
+        $movie->setId($details['id']);
+        $movieProxy->setMovie($movie);
+
+        return $movieProxy;
     }
 }

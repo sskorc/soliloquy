@@ -1,6 +1,0 @@
-services:
-    goutte_client:
-        class: Goutte\Client
-    soliloquy.parser.filmweb:
-        class: Soliloquy\ParserBundle\Parser\FilmwebParser
-        arguments: [@goutte_client]

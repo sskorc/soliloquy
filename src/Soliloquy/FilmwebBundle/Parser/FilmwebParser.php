@@ -1,12 +1,20 @@
 <?php
 
-namespace Soliloquy\ParserBundle\Parser;
+namespace Soliloquy\FilmwebBundle\Parser;
+
+use Goutte\Client;
 
 class FilmwebParser
 {
+    /**
+     * @var Client
+     */
     protected $client;
 
-    public function __construct($client)
+    /**
+     * @param Client $client
+     */
+    public function __construct(Client $client)
     {
         $this->client = $client;
     }
@@ -31,6 +39,10 @@ class FilmwebParser
         return 'http://www.filmweb.pl' . $movieUrl;
     }
 
+    /**
+     * @param string $username
+     * @param string $password
+     */
     public function login($username, $password)
     {
         $crawler = $this->client->request('GET', 'https://ssl.filmweb.pl/login');
@@ -77,6 +89,9 @@ class FilmwebParser
         return $details;
     }
 
+    /**
+     * @return array
+     */
     public function parseUserMoviesListPage()
     {
         $url = 'http://www.filmweb.pl/data/myFilmVotes';

@@ -12,7 +12,7 @@ class DumpManager
     protected $dm;
 
     /**
-     * @param DDoctrine\Common\Persistence\ObjectManager $dm
+     * @param Doctrine\Common\Persistence\ObjectManager $dm
      */
     public function __construct($dm)
     {
@@ -20,11 +20,17 @@ class DumpManager
     }
 
     /**
+     * @param array $movies
+     *
      * @return Dump
      */
-    public function createDump()
+    public function createDump($movies = array())
     {
-        return new Dump();
+        $dump = new Dump();
+
+        $dump->setMovies($movies);
+
+        return $dump;
     }
 
     /**
