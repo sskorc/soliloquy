@@ -18,11 +18,20 @@
         "doctrine/mongodb-odm-bundle": "3.0.*@dev",
         "friendsofsymfony/rest-bundle": "dev-master",
         "jms/serializer-bundle": "dev-master",
-        "fabpot/goutte": "~2.0"
+        "fabpot/goutte": "~2.0",
+        "doctrine/data-fixtures": "^1.1",
+        "doctrine/doctrine-fixtures-bundle": "^2.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
-        "phpspec/phpspec": "~2.0"
+        "phpspec/phpspec": "~2.0",
+        "behat/behat": "^3.0",
+        "behat/symfony2-extension": "^2.0",
+        "behat/mink": "^1.6",
+        "behat/mink-extension": "^2.0",
+        "behat/mink-browserkit-driver": "^1.2",
+        "bossa/phpspec2-expect": "^1.0",
+        "behat/mink-goutte-driver": "^1.1"
     },
     "scripts": {
         "post-root-package-install": [

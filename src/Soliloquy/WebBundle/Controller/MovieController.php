@@ -9,10 +9,8 @@ class MovieController extends Controller
 {
     public function getMovieAction(Request $request, $title)
     {
-        $year = $request->get('year');
-
         $parameters['title'] = $title;
-        $parameters['year'] = $year;
+        $parameters['year'] = $request->get('year');
 
         $movie = $this->get('soliloquy.app.movie')->getMovie($parameters);
 

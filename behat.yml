@@ -1,0 +1,14 @@
+default:
+  suites:
+    app:
+      contexts:
+        - Soliloquy\AppBundle\MovieContext
+    web:
+      contexts:
+        - Soliloquy\WebBundle\MovieContext
+  extensions:
+    Behat\Symfony2Extension: ~
+    Behat\MinkExtension:
+      sessions:
+        default:
+          symfony2: ~
