@@ -4,29 +4,19 @@ Yet another PHP pet project
 
 ## Running
 
-You have to have Docker installed.
+You have to have Docker and docker-compose installed.
 
-1. Build the image
+1. Run the environment
 ```
-docker build -t sskorc/soliloquy .
-```
-
-2. Run the container
-```
-docker run -d -P --name slq -v $(pwd):/var/www/soliloquy sskorc/soliloquy
+docker-compose up -d
 ```
 
-3. Check container's IP address
+2. Get into the bash
 ```
-docker inspect --format '{{ .NetworkSettings.IPAddress }}' slq
-```
-
-4. Get into the bash
-```
-docker exec -i -t slq bash
+docker exec -it soliloquy_web_1 bash
 ```
 
-5. Install dependencies
+3. Install dependencies
 ```
-cd /var/www/soliloquy && composer install -n
+composer install -n
 ```
